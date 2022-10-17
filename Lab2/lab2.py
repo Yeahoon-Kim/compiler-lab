@@ -84,9 +84,7 @@ if __name__ == '__main__':
 
     Dstate.append(NFA.getEClosureS(0))
     # TODO
-    sigma = {edge.m_sInput for edge in NFA.m_lEdges if edge.m_sInput}
-    sigma = list(sigma)
-    sigma.sort()
+    sigma = sorted({edge.m_sInput for edge in NFA.m_lEdges if edge.m_sInput})
 
     for idx, oneState in enumerate(Dstate):
         T = idx
