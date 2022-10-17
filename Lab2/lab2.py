@@ -22,25 +22,46 @@ class Graph:
 
     def getEClosureS(self, s_):
         r = set()
-        r.add(s_)
-        for e in self.m_lEdges:
-            if (e.m_nFrom == s_ and e.m_sInput == ''):
-                r.add(e.m_nTo)
-                r |= self.getEClosureS(e.m_nTo)
+        q = [s_]
+
+        # Use BFS to check states
+        # BFS and set can prevent infinite loop by ebsilon cycle
+        while len(q) > 0:
+            current = q.pop(0)
+            r.add(current)
+
+            for edge in self.m_lEdges:
+                if edge.m_nFrom == current and edge.m_nTo not in r and edge.m_sInput == '':
+                    q.append(edge.m_nTo)
+
         return r
 
     def getEClosureT(self, t_):
         r = set()
-        for s in t_:
-            r |= self.getEClosureS(s)
+        q = [state for state in t_]
+
+        # Use BFS to check states
+        # BFS and set can prevent infinite loop by ebsilon cycle
+        while len(q) > 0:
+            current = q.pop(0)
+            r.add(current)
+
+
+            for edge in self.m_lEdges:
+                if edge.m_nFrom == current and edge.m_nTo not in r and edge.m_sInput == '':
+                    q.append(edge.m_nTo)
+
         return r
 
     def getMove(self, t_, a_):
         r = set()
-        for s in t_:
-            for e in self.m_lEdges:
-                if (e.m_nFrom == s and e.m_sInput == a_):
-                    r.add(e.m_nTo)
+
+        for state in t_:
+            for edge in self.m_lEdges:
+                # find all state from t_ by a_
+                if edge.m_nFrom == state and edge.m_sInput == a_:
+                    r.add(edge.m_nTo)
+
         return r
 
     def addEdge(self, f_, t_, i_):
