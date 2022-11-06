@@ -1,0 +1,7 @@
+A a
+A
+B bCDEe
+B
+C Ac
+D ABd
+E AB
